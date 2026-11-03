@@ -33,3 +33,5 @@ A aplicação conta com:
 - Animações de entrada e transições utilizando GSAP e ScrollTrigger
 - Animações de textos com SplitText
 - Interface responsiva e moderna com Tailwind CSS
+
+🔗 **Deploy:** [Acessar projeto]((https://coffee-five-gilt.vercel.app/))
