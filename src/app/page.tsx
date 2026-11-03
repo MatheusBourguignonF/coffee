@@ -1,22 +1,94 @@
+"use client";
+
+import { useLayoutEffect } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
 export default function Home() {
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(SplitText);
+
+    SplitText.create(".title", {
+      type: "words, chars",
+      mask: "lines",
+      autoSplit: true,
+      onSplit(self) {
+        return gsap.from(self.chars, {
+          duration: 1,
+          y: 100,
+          autoAlpha: 0,
+          stagger: 0.05,
+        });
+      },
+    });
+
+    SplitText.create(".paragraph", {
+      type: "lines, words, chars",
+      mask: "lines",
+      autoSplit: true,
+      onSplit(self) {
+        return gsap.from(self.lines, {
+          duration: 1,
+          y: 100,
+          autoAlpha: 0,
+          stagger: {
+            amount: 0.5,
+            from: "start",
+          },
+        });
+      },
+    });
+
+
+  gsap.utils.toArray<HTMLElement>(".secondParagraph").forEach((element) => {
+  SplitText.create(element, {
+    type: "lines",
+    mask: "lines",
+    autoSplit: true,
+
+    onSplit(self) {
+      return gsap.from(self.lines, {
+        duration: 1,
+        y: 100,
+        autoAlpha: 0,
+        stagger: 0.1,
+
+        scrollTrigger: {
+          trigger: element,
+          start: "top 80%",
+        },
+      });
+    },
+  });
+});
+
+    return () => {
+      gsap.killTweensOf(".title");
+      gsap.killTweensOf(".paragraph");
+    };
+  }, []);
   return (
     <div>
       <Header></Header>
+
       <main className="flex flex-col items-center">
-        <section id="information" className="flex flex-col gap-10 items-center">
+        <section id="information" className="flex flex-col gap-10 items-center w-full">
           <div className="bg-[url('/images/parallax-imagem1.png')] min-h-87.5 bg-cover bg-center bg-scroll sm:min-h-112.5 lg:min-h-150 sm:bg-fixed flex justify-center w-full items-center">
-            <h1 className="text-white font-merriweather text-3xl sm:text-4xl lg:text-5xl text-center">
+            <h1 className="title text-white font-merriweather text-3xl sm:text-4xl lg:text-5xl text-center">
               MANHATTAN - COFFEE HOUSE
             </h1>
           </div>
+
           <div className="text-center flex flex-col gap-4 w-3/5">
-            <h2 className="text-secondary font-bold text-xl font-oswald">
+            <h2 className="paragraph text-secondary font-bold text-xl font-oswald">
               EXPERIMENTE O MELHOR CAFÉ DA CIDADE!
             </h2>
-            <p className="font-lato">
+
+            <p className="paragraph font-lato">
               O café não é uma simples bebida que foi preparada por alguém. O
               café é momento e nós mostraremos isso. Frases como “Que tal
               tomarmos um café?” ou até então “Vamos fazer um café?” são
@@ -37,10 +109,10 @@ export default function Home() {
             </h3>
           </div>
           <div className="flex flex-col justify-center items-center text-center w-3/5 gap-4">
-            <h2 className="text-secondary text-xl font-bold font-oswald">
+            <h2 className="secondParagraph text-secondary text-xl font-bold font-oswald">
               O QUE É O CAFÉ MANHATTAN?
             </h2>
-            <p className="font-lato">
+            <p className="secondParagraph font-lato">
               Segundo a Metodologia de Avaliação Sensorial da SCA (Specialty
               Coffee Association), usada no mundo todo, um café especial é todo
               aquele que atinge, no mínimo, 80 pontos na escala de pontuação da
@@ -59,11 +131,11 @@ export default function Home() {
               A vida só começa depois do café!
             </h3>
           </div>
-          <div className="flex flex-col text-center items-center w-3/5 min-h-80 gap-4">
-            <h2 className="text-secondary font-oswald font-bold text-xl">
+          <div className="flex flex-col text-center items-center w-3/5 justify-center gap-4 mb-10">
+            <h2 className="secondParagraph text-secondary font-oswald font-bold text-xl">
               CONHEÇA O CAFÉ GOURMET MANHATTAN
             </h2>
-            <p className="font-lato">
+            <p className="secondParagraph font-lato">
               As características desse tipo do café gourmet da Manhattan são
               muito marcantes. O seu corpo vai depender da variedade do blend:
               quanto mais “pesado” ele for na boca, maior o corpo. Quanto menor
@@ -79,7 +151,7 @@ export default function Home() {
         </section>
         <section
           id="contact"
-          className="bg-[url('/images/parallax-imagem4.png')] min-h-200 justify-evenly bg-fixed bg-cover bg-center w-full flex flex-col items-center "
+          className="bg-[url('/images/parallax-imagem4.png')]  min-h-200 justify-evenly bg-fixed bg-cover bg-center w-full flex flex-col items-center "
         >
           <h2 className="text-white bg-primary px-4 py-2 rounded-sm w-fit font-merriweather text-xl">
             Contatos & Endereço
