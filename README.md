@@ -26,7 +26,6 @@ A aplicação conta com:
 - Landing page para cafeteria
 - Navegação entre seções da página
 - Seção inicial com apresentação da cafeteria
-- Cardápio com apresentação dos produtos
 - Seção institucional sobre a cafeteria
 - Informações de contato e localização
 - Horários de funcionamento
